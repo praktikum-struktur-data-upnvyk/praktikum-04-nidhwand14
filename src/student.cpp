@@ -89,22 +89,110 @@ void tutupSemuaTab(CNode*& head) {
 
 // SOAL 1
 bool bukaHalaman(DNode*& head, DNode*& tail, int nomor) {
-    return false;
+    DNode* baru  = new DNode;
+    baru->data = nomor;
+    baru->prev = nullptr;
+    baru->next = nullptr;
+
+    if (head == nullptr) {
+        head = baru;
+        tail = baru;
+    } else {
+        baru->prev = tail;
+        tail->next = baru;
+        tail = baru;
+    }
+
+    return true;
 }
 
 // SOAL 2
 int riwayatMundur(DNode* tail, int* keluaran) {
-    return 0;
+    int jumlah = 0;
+
+    DNode* current = tail;
+
+    while (current != nullptr) {
+        keluaran[jumlah] = current->data;
+        jumlah++;
+        current = current->prev;
+    }
+
+    return jumlah;
 }
 
 // SOAL 3
 bool hapusHalaman(DNode*& head, DNode*& tail, int nomor) {
-    return false;
+    if (head == nullptr) {
+        return false;
+    }
+
+    DNode* current = head;
+    while (current != nullptr && current->data != nomor) {
+        current = current->next;
+    }
+
+    if (current == nullptr) {
+        return false;
+    }
+
+    if (current == head) {
+        head = current->next;
+
+        if (head != nullptr) {
+            head->prev = nullptr;
+        } else {
+            tail = nullptr;
+        }
+
+        delete current;
+        return true;
+    }
+
+    if (current == tail) {
+        tail = current->prev;
+
+        if (tail != nullptr) {
+            tail->next = nullptr;
+        } else {
+            tail = nullptr;
+        }
+
+        delete current;
+        return true;
+    }
+
+
+    current->prev->next = current->next;
+    current->next->prev = current->prev;
+
+    delete current;
+    return true;
+
+    
+    
 }
 
 // SOAL 4
 bool bukaTab(CNode*& head, int nomor) {
-    return false;
+    CNode* baru = new CNode;
+    baru->data = nomor;
+
+    if (head == nullptr) {
+        head = baru;
+        baru->next = head;
+        return true;
+    }
+
+    CNode* current = head;
+    while (current->next != head) {
+        current = current->next;
+    }
+
+    current->next = baru;
+    baru->next = head;
+    return true;
+
 }
 
 // =============================================================================
